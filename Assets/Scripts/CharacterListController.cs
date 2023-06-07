@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,10 +7,8 @@ public class CharacterListController : MonoBehaviour
 {
     public Button btnFilterByFavorited;
     public Button btnFilterByOwned;
-	public GameObject itemPrefab;
+	public GameObject characterCard;
 	public GameObject gridLayout;
-
-	public Toggle toggle;
 
 	private HttpClient client = new HttpClient();
 	private List<Character> characters;
@@ -26,9 +23,12 @@ public class CharacterListController : MonoBehaviour
 
 	private void Start()
 	{
-		characters = client.FetchCharacters();
-		List<Character> filteredList = characters.Where(item => item.IsOwned).ToList();
-		Populate(filteredList);
+        // 서버로부터 캐릭터 데이터 불러오기 (현재는 더미데이터)
+        characters = client.FetchCharacters();
+        // 소유중인 캐릭터만 출력하도록 필터링
+        List<Character> filteredList = characters.Where(item => item.IsOwned).ToList();
+        // 필터링한 리스트 UI에 뿌리기
+        Populate(filteredList);
 	}
 
 	public void OnBtnBackClick()
@@ -64,12 +64,12 @@ public class CharacterListController : MonoBehaviour
 			case (int)SortMode.STAR:
 				if (sortedByStarInDesc)
 				{
-					sortedList = characters.OrderBy(item => item.Star).ToList();
+					sortedList = characters.OrderBy(item => item.NumOfStar).ToList();
 					sortedByStarInDesc = false;
 				}
 				else
 				{
-					sortedList = characters.OrderByDescending(item => item.Star).ToList();
+					sortedList = characters.OrderByDescending(item => item.NumOfStar).ToList();
 					sortedByStarInDesc = true;
 				}
 				break;
@@ -162,17 +162,20 @@ public class CharacterListController : MonoBehaviour
 		Populate(filteredList);
 	}
 
-	private void Populate(List<Character> list)
+    // UI에 리스트 뿌리는 기능
+    private void Populate(List<Character> list)
 	{
-		foreach (Transform child in gridLayout.transform)
+        // 화면 갱신시 리스트가 계속 쌓이지 않도록 기존 객체들 없애기
+        foreach (Transform child in gridLayout.transform)
 		{
 			Destroy(child.gameObject);
 		}
 
-		foreach (Character item in list)
+        // GridLayoutGroup 안에 캐릭터 카드 프리팹 넣고 데이터 바인딩
+        foreach (Character item in list)
 		{
-			GameObject go = Instantiate(itemPrefab, gridLayout.transform);
-			go.GetComponent<CharacterItem>().Set(item);
+			GameObject go = Instantiate(characterCard, gridLayout.transform);
+			go.GetComponent<CharacterCard>().Bind(item);
 		}
 	}
 }

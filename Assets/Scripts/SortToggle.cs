@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 class SortToggle : MonoBehaviour
 {
+	public Image buttonImage;
 	public bool descending;
 
 	public void OnClick()
@@ -10,13 +11,13 @@ class SortToggle : MonoBehaviour
 		if (descending)
 		{
 			descending = false;
-			GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/triangle-up");
+			buttonImage.sprite = Resources.Load<Sprite>("Icons/triangle-up");
 			Debug.Log("descending: " + descending);
 		}
 		else
 		{
 			descending = true;
-			GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/triangle-down");
+            buttonImage.sprite = Resources.Load<Sprite>("Icons/triangle-down");
 			Debug.Log("descending: " + descending);
 		}
 	}

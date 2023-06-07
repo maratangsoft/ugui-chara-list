@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 1807095385022942601}
   - component: {fileID: 8052045577456606138}
   m_Layer: 5
-  m_Name: CharaItem
+  m_Name: CharacterCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

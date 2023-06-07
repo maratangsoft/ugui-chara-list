@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 227033499}
   - component: {fileID: 227033498}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ImgSortByGetDate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1278,7 +1278,7 @@ GameObject:
   - component: {fileID: 687951962}
   - component: {fileID: 687951961}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ImgSortByStar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2091,6 +2091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5dd6c7520228e46b183eb3fe3226ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 687951961}
   descending: 1
 --- !u!114 &1050799401
 MonoBehaviour:
@@ -2509,7 +2510,7 @@ GameObject:
   - component: {fileID: 1222004080}
   - component: {fileID: 1222004079}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ImgSortByLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2627,6 +2628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5dd6c7520228e46b183eb3fe3226ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 227033498}
   descending: 1
 --- !u!114 &1334243692
 MonoBehaviour:
@@ -3123,6 +3125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5dd6c7520228e46b183eb3fe3226ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 1415045717}
   descending: 1
 --- !u!114 &1375006396
 MonoBehaviour:
@@ -3272,6 +3275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5dd6c7520228e46b183eb3fe3226ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 1222004079}
   descending: 1
 --- !u!114 &1387447653
 MonoBehaviour:
@@ -3553,7 +3557,7 @@ GameObject:
   - component: {fileID: 1415045718}
   - component: {fileID: 1415045717}
   m_Layer: 0
-  m_Name: Image
+  m_Name: ImgSortByPower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3740,9 +3744,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btnFilterByFavorited: {fileID: 0}
   btnFilterByOwned: {fileID: 0}
-  itemPrefab: {fileID: 4917096789485313265, guid: 4aa5ef7b04c2d1b40a42039202b5b9f1, type: 3}
+  characterCard: {fileID: 4917096789485313265, guid: 4aa5ef7b04c2d1b40a42039202b5b9f1, type: 3}
   gridLayout: {fileID: 1825292356}
-  toggle: {fileID: 0}
 --- !u!1 &1609505770
 GameObject:
   m_ObjectHideFlags: 0

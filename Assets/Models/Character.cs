@@ -24,7 +24,7 @@ public class Character
 	private Skill ultimateSkill;
 
 	// mutable values
-	private int star;
+	private int numOfStar;
 	private long getDate;
 	private int level;
 	private int maxHp;
@@ -41,7 +41,7 @@ public class Character
 		int rarity,
 		string portraitUrl,
 		Job job,
-		int star,
+		int numOfStar,
 		long getDate,
 		int level,
 		int maxHp,
@@ -56,7 +56,7 @@ public class Character
 		Rarity = rarity;
 		PortraitUrl = portraitUrl;
 		Job = job;
-		Star = star;
+		NumOfStar = numOfStar;
 		GetDate = getDate;
 		Level = level;
 		MaxHp = maxHp;
@@ -78,7 +78,7 @@ public class Character
 	public Skill PassiveSkill { get => passiveSkill; set => passiveSkill = value; }
 	public Skill ActiveSkill { get => activeSkill; set => activeSkill = value; }
 	public Skill UltimateSkill { get => ultimateSkill; set => ultimateSkill = value; }
-	public int Star { get => star; set => star = value; }
+	public int NumOfStar { get => numOfStar; set => numOfStar = value; }
 	public long GetDate { get => getDate; set => getDate = value; }
 	public int Level { get => level; set => level = value; }
 	public int MaxHp { get => maxHp; set => maxHp = value; }
