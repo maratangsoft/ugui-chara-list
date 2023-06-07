@@ -603,6 +603,7 @@ MonoBehaviour:
   jobIconImage: {fileID: 3891897110720839004}
   starImageTransform: {fileID: 6629160174252256311}
   levelText: {fileID: 5420126576997280615}
+  powerText: {fileID: 5966808061564964929}
 --- !u!1 &5296362163340744330
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,13 +12,6 @@ public class CharacterItem : MonoBehaviour
 	public TMP_Text levelText;
     public TMP_Text powerText;
 
-
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
-
     public void Set(Character character)
     {
         nameText.text = character.Name;
@@ -40,7 +33,7 @@ public class CharacterItem : MonoBehaviour
                 break;
         }
 
-        int power = character.MaxHp * 10 + character.Damage * 20 + character.Armor * 5;
+        int power = Utils.CalculatePower(character.MaxHp, character.Damage, character.Armor);
         powerText.text = power.ToString();
     }
 }

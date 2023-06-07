@@ -6,45 +6,48 @@ public class Character
 {
 	// immutable values
 	// personal information
-	[SerializeField] private int characterId;
-	[SerializeField] private string name;
-	[SerializeField] private string englishName;
-	[SerializeField] private int rarity;
-	[SerializeField] private string illustUrl;
-	[SerializeField] private string portraitUrl;
+	private int characterId;
+	private string name;
+	private string englishName;
+	private int rarity;
+	private string illustUrl;
+	private string portraitUrl;
 
 	// job & roles
-	[SerializeField] private Job job;
-	[SerializeField] private Role mainRole;
-	[SerializeField] private Role subRole;
+	private Job job;
+	private Role mainRole;
+	private Role subRole;
 
 	// skills
-	[SerializeField] private Skill passiveSkill;
-	[SerializeField] private Skill activeSkill;
-	[SerializeField] private Skill ultimateSkill;
+	private Skill passiveSkill;
+	private Skill activeSkill;
+	private Skill ultimateSkill;
 
 	// mutable values
-	[SerializeField] private int star;
-	[SerializeField] private int getDate;
-	[SerializeField] private int level;
-	[SerializeField] private int maxHp;
-	[SerializeField] private int damage;
-	[SerializeField] private int armor;
-	[SerializeField] private int intimacy;
-	[SerializeField] private bool isFavorited;
+	private int star;
+	private long getDate;
+	private int level;
+	private int maxHp;
+	private int damage;
+	private int armor;
+	private int intimacy;
+	private bool isOwned;
+	private bool isFavorited;
 
 	public Character() { }
 	public Character(
-		int characterId, 
-		string name, 
-		int rarity, 
-		string portraitUrl, 
-		Job job, 
-		int star, 
-		int level, 
+		int characterId,
+		string name,
+		int rarity,
+		string portraitUrl,
+		Job job,
+		int star,
+		long getDate,
+		int level,
 		int maxHp,
 		int damage,
 		int armor,
+		bool isOwned,
 		bool isFavorited
 		) 
 	{ 
@@ -54,10 +57,12 @@ public class Character
 		PortraitUrl = portraitUrl;
 		Job = job;
 		Star = star;
+		GetDate = getDate;
 		Level = level;
 		MaxHp = maxHp;
 		Damage = damage;
 		Armor = armor;
+		IsOwned = isOwned;
 		IsFavorited = isFavorited;
 	}
 
@@ -74,11 +79,12 @@ public class Character
 	public Skill ActiveSkill { get => activeSkill; set => activeSkill = value; }
 	public Skill UltimateSkill { get => ultimateSkill; set => ultimateSkill = value; }
 	public int Star { get => star; set => star = value; }
-	public int GetDate { get => getDate; set => getDate = value; }
+	public long GetDate { get => getDate; set => getDate = value; }
 	public int Level { get => level; set => level = value; }
 	public int MaxHp { get => maxHp; set => maxHp = value; }
 	public int Damage { get => damage; set => damage = value; }
 	public int Armor { get => armor; set => armor = value; }
 	public int Intimacy { get => intimacy; set => intimacy = value; }
+	public bool IsOwned { get => isOwned; set => isOwned = value; }
 	public bool IsFavorited { get => isFavorited; set => isFavorited = value; }
 }
