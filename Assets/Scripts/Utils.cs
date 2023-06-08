@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 public class Utils
 {
-	static public int CalculatePower(
-		int maxHp,
-		int damage,
-		int armor
-		)
+	static public int CalculatePower(int maxHp,
+									 int damage,
+									 int armor) 
 	{
 		return maxHp * 10 + damage * 20 + armor * 5;
 	}

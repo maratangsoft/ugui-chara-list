@@ -1,24 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-class SortToggle : MonoBehaviour
+public class SortToggle : MonoBehaviour
 {
 	public Image buttonImage;
-	public bool descending;
+	public bool isOn = true;
 
 	public void OnClick()
 	{
-		if (descending)
+		if (isOn)
 		{
-			descending = false;
+			isOn = false;
 			buttonImage.sprite = Resources.Load<Sprite>("Icons/triangle-up");
-			Debug.Log("descending: " + descending);
+			Debug.Log("descending: " + isOn);
 		}
 		else
 		{
-			descending = true;
+			isOn = true;
             buttonImage.sprite = Resources.Load<Sprite>("Icons/triangle-down");
-			Debug.Log("descending: " + descending);
+			Debug.Log("descending: " + isOn);
 		}
 	}
 }
