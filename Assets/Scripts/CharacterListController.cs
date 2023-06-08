@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,203 +12,162 @@ public class CharacterListController : MonoBehaviour
 	public GameObject gridLayout;
 
 	private HttpClient client = new HttpClient();
-	private List<Character> originalList;
 	private List<Character> sortedList;
-	private List<Character> filteredList;
 
-	public SortToggle sortByLevelToggle;
-	public SortToggle sortByStarToggle;
-	public SortToggle sortByPowerToggle;
-	public SortToggle sortByGetDateToggle;
-	public Toggle filterByFavoritedToggle;
-	public Toggle filterByOwnedToggle;
+    public Toggle sortByLevelToggle;
+    public Toggle sortByStarToggle;
+    public Toggle sortByPowerToggle;
+    public Toggle sortByGetDateToggle;
+    public Toggle filterByFavoritedToggle;
+    public Toggle filterByOwnedToggle;
 
-	private void Start()
+    public GameObject filterPopup;
+
+    void Start()
 	{
-		originalList = client.FetchCharacters();
-		sortedList = originalList;
-		filteredList = originalList.Where(item => item.IsOwned).ToList();
-		Populate(filteredList);
+        sortByLevelToggle.onValueChanged.AddListener(SortByLevel);
+        sortByStarToggle.onValueChanged.AddListener(SortByStar);
+        sortByPowerToggle.onValueChanged.AddListener(SortByPower);
+        sortByGetDateToggle.onValueChanged.AddListener(SortByGetDate);
+        filterByFavoritedToggle.onValueChanged.AddListener(OnFilterChanged);
+        filterByOwnedToggle.onValueChanged.AddListener(OnFilterChanged);
+
+		List<Character> characterList = client.FetchCharacters();
+
+        sortedList = InitialSort(characterList);
+
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
 	}
 
-	public void OnToggleChange()
-	{
-		IEnumerable<Character> query = sortedList;
-
-		if (sortByLevelToggle.isOn)
-			query = query.OrderByDescending(item => item.Level);
-		else
-			query = query.OrderBy(item => item.Level);
-
-		if (sortByStarToggle.isOn)
-			query = query.OrderByDescending(item => item.NumOfStar);
-		else
-			query = query.OrderBy(item => item.NumOfStar);
-
-		if (sortByPowerToggle.isOn)
-			query = query.OrderByDescending(item => 
-				Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
-			);
-		else
-			query = query.OrderBy(item =>
-				Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
-			);
-
-		if (sortByGetDateToggle.isOn)
-			query = query.OrderByDescending(item => item.GetDate);
-		else
-			query = query.OrderBy(item => item.GetDate);
-
-		sortedList = query.ToList();
-
-		IEnumerable<Character> filteringList = sortedList;
-
-		if (filterByFavoritedToggle.isOn)
-			filteringList = filteringList.Where(item => item.IsFavorited);
-
-		if (filterByOwnedToggle.isOn)
-			filteringList = filteringList.Where(item => item.IsOwned);
-
-		Populate(filteringList.ToList());
-	}
-
-	/*public void OnBtnBackClick()
+    public void ShowFilterPopup()
     {
-        // has no feature
+        filterPopup.SetActive(true);
     }
-    public void OnBtnHomeClick()
-    {
-		// has no feature
-	}
-	public void OnBtnNavigationClick()
-    {
-		// has no feature
-	}
 
-	public void OnToggleValueChange()
-	{
-
-	}
-    public void OnBtnSortClick(int sortMode)
+    public void OnFilterChanged(bool isOn)
     {
-		List<Character> sortedList = null;
-		switch (sortMode)
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
+    }
+
+    private List<Character> InitialSort(List<Character> characterList)
+    {
+        IEnumerable<Character> query = characterList;
+        query = query.OrderByDescending(item => item.GetDate)
+                     .OrderByDescending(item =>
+                         Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
+                     ).OrderByDescending(item => item.NumOfStar)
+                     .OrderByDescending(item => item.Level);
+
+        return query.ToList();
+    }
+
+    private void SortByLevel(bool inDescending)
+    {
+        Debug.Log("isOn: " + inDescending);
+        if (inDescending)
         {
-            case (int)SortMode.LEVEL:
-				if (sortedByLevelInDesc)
-				{
-					sortedList = characters.OrderBy(item => item.Level).ToList();
-					sortedByLevelInDesc = false;
-				}
-				else
-				{
-					sortedList = characters.OrderByDescending(item => item.Level).ToList();
-					sortedByLevelInDesc = true;
-				}
-                break;
-
-			case (int)SortMode.STAR:
-				if (sortedByStarInDesc)
-				{
-					sortedList = characters.OrderBy(item => item.NumOfStar).ToList();
-					sortedByStarInDesc = false;
-				}
-				else
-				{
-					sortedList = characters.OrderByDescending(item => item.NumOfStar).ToList();
-					sortedByStarInDesc = true;
-				}
-				break;
-
-			case (int)SortMode.POWER:
-				if (sortedByPowerInDesc)
-				{
-					sortedList = characters.OrderBy(item => 
-						Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
-					).ToList();
-					sortedByPowerInDesc = false;
-				}
-				else
-				{
-					sortedList = characters.OrderByDescending(item =>
-						Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
-					).ToList();
-					sortedByPowerInDesc = true;
-				}
-				break;
-
-			case (int)SortMode.GET_DATE:
-				if (sortedByGetDateInDesc)
-				{
-					sortedList = characters.OrderBy(item => item.GetDate).ToList();
-					sortedByGetDateInDesc = false;
-				}
-				else
-				{
-					sortedList = characters.OrderByDescending(item => item.GetDate).ToList();
-					sortedByGetDateInDesc = true;
-				}
-				break;
-		}
-		Debug.Log("sortedByLevelInDesc: " + sortedByLevelInDesc);
-		Debug.Log("sortedByStarInDesc: " + sortedByStarInDesc);
-		Debug.Log("sortedByPowerInDesc: " + sortedByPowerInDesc);
-		Debug.Log("sortedByGetDateInDesc: " + sortedByGetDateInDesc);
-
-		Populate(sortedList);
+            sortedList =
+                sortedList.OrderByDescending(item => item.Level).ToList();
+        }
+        else
+        {
+            sortedList =
+                sortedList.OrderBy(item => item.Level).ToList();
+        }
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
     }
-	public void OnTglFilterByFavoritedChange(bool isChecked)
-	{
-		
 
+    private void SortByStar(bool inDescending)
+    {
+        Debug.Log("isOn: " + inDescending);
+        if (inDescending)
+        {
+            sortedList =
+                sortedList.OrderByDescending(item => item.NumOfStar).ToList();
+        }
+        else
+        {
+            sortedList =
+                sortedList.OrderBy(item => item.NumOfStar).ToList();
+        }
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
+    }
 
-		List<Character> filteredList = null;
-		if (filteredByFavorited)
-		{
-			filteredList = characters;
-			filteredByFavorited = false;
-		}
-		else
-		{
-			filteredList = characters.Where(item => item.IsFavorited).ToList();
-			filteredByFavorited = true;
-		}
-			
-		Populate(filteredList);
-	}
-	public void OnTglFilterByOwnedChange(bool isChecked)
-	{
-		List<Character> filteredList = null;
-		if (filteredByOwned)
-		{
+    private void SortByPower(bool inDescending)
+    {
+        Debug.Log("isOn: " + inDescending);
+        if (inDescending)
+        {
+            sortedList = sortedList.OrderByDescending(item =>
+                Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
+            ).ToList();
+        }
+        else
+        {
+            sortedList = sortedList.OrderBy(item =>
+                Utils.CalculatePower(item.MaxHp, item.Damage, item.Armor)
+            ).ToList();
+        }
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
+    }
 
-			filteredList = characters;
-			filteredByOwned = false;
-		}
-		else
-		{
-			filteredList = characters.Where(item => item.IsOwned).ToList();
-			filteredByOwned = true;
-		}
+    private void SortByGetDate(bool inDescending)
+    {
+        Debug.Log("isOn: " + inDescending);
+        if (inDescending)
+        {
+            sortedList =
+                sortedList.OrderByDescending(item => item.GetDate).ToList();
+        }
+        else
+        {
+            sortedList =
+                sortedList.OrderBy(item => item.GetDate).ToList();
+        }
+        List<Character> filteredList = ApplyFilter(sortedList);
+        Populate(filteredList);
+    }
 
-		Populate(filteredList);
-	}
-	public void OnBtnOpenFilterListClick()
-	{
+    public List<Character> ApplyFilter(List<Character> sortedList)
+    {
+        IEnumerable<Character> query = sortedList;
 
-	}
-	public void OnTglFilterByStarChange(int NumOfStar)
-	{
-		List<Character> filteredList = characters.Where(item => item.IsFavorited).ToList();
-		Populate(filteredList);
-	}
-	public void OnTglFilterByJobChange(int jobId)
-	{
-		List<Character> filteredList = characters.Where(item => item.IsFavorited).ToList();
-		Populate(filteredList);
-	}*/
+        if (filterByFavoritedToggle.isOn)
+            query = query.Where(item => item.IsFavorited);
 
-	private void Populate(List<Character> list)
+        if (filterByOwnedToggle.isOn)
+            query = query.Where(item => item.IsOwned);
+
+        bool[] filtersFromPopup =
+            filterPopup.GetComponent<FilterPopupController>().ToggleValues;
+
+        if (!filtersFromPopup[(int)PopupFilters.STAR_3])
+            query = query.Except(query.Where(item => item.NumOfStar == 3));
+
+        if (!filtersFromPopup[(int)PopupFilters.STAR_4])
+            query = query.Except(query.Where(item => item.NumOfStar == 4));
+
+        if (!filtersFromPopup[(int)PopupFilters.STAR_5])
+            query = query.Except(query.Where(item => item.NumOfStar == 5));
+
+        if (!filtersFromPopup[(int)PopupFilters.JOB_TANKER])
+            query = query.Except(query.Where(item => item.Job.JobId == 0));
+
+        if (!filtersFromPopup[(int)PopupFilters.JOB_DEALER])
+            query = query.Except(query.Where(item => item.Job.JobId == 1));
+
+        if (!filtersFromPopup[(int)PopupFilters.JOB_HEALER])
+            query = query.Except(query.Where(item => item.Job.JobId == 2));
+
+        return query.ToList();
+    }
+
+    private void Populate(List<Character> list)
 	{
 		foreach (Transform child in gridLayout.transform)
 		{

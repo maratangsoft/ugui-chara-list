@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 7734107972951556214}
   - component: {fileID: 1807095385022942601}
   - component: {fileID: 8052045577456606138}
+  - component: {fileID: 6842750531902842105}
   m_Layer: 5
   m_Name: CharacterCard
   m_TagString: Untagged
@@ -604,6 +605,21 @@ MonoBehaviour:
   starImageTransform: {fileID: 6629160174252256311}
   levelText: {fileID: 5420126576997280615}
   powerText: {fileID: 5966808061564964929}
+--- !u!114 &6842750531902842105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917096789485313265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.22745098}
+  m_EffectDistance: {x: 8, y: -8}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5296362163340744330
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,14 +12,11 @@ enum SortMode
 	GET_DATE
 }
 
-enum FilterMode
+enum PopupFilters
 {
-	ALL,
-	FAVORITED,
-	HAVING,
-	STAR_1,
-	STAR_2,
 	STAR_3,
+	STAR_4,
+	STAR_5,
 	JOB_TANKER,
 	JOB_DEALER,
 	JOB_HEALER,
