@@ -1,4 +1,6 @@
 # ugui-chara-list
+![](https://velog.velcdn.com/images/maratangsoft/post/ac59459a-5436-4127-baf0-8fc2221bc49d/image.png)
+
 유니티 GUI 구현을 연습해 보고자 만든 캐릭터 목록 UI 예제입니다.<br>
 모바일 게임 <뉴럴 클라우드> 의 UI 구조를 모방했습니다.
 
